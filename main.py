@@ -3,6 +3,7 @@ import hashlib
 import uuid
 
 EXPERIMENT_KEY = "new-checkout"
+ROLLOUT_PERCENTAGE = 0.5  # 50% of users will see the new checkout; 0.7 for 70% of users will see the new checkout
 
 def assign_variant(user_id: str) -> str:
     # Combine experiment key and user ID
@@ -15,7 +16,7 @@ def assign_variant(user_id: str) -> str:
     bucket = int(digest[:8], 16) / 0xFFFFFFFF
 
     # 50/50 traffic split
-    return "A" if bucket < 0.5 else "B"
+    return "A" if bucket < ROLLOUT_PERCENTAGE else "B"
 
 
 # Generate 10 reproducible UUIDs
